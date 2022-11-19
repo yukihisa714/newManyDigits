@@ -21,6 +21,9 @@ class ManyNumer {
             array.splice(array.length * position, 0, 0);
         }
     }
+    compareAbsolute(number) {
+
+    }
     addition(number) {
 
     }
