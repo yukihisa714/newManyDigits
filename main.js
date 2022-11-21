@@ -24,33 +24,49 @@ class ManyNumer {
         }
         return resultArr;
     }
-    compareAbsolute(number) {
+    compare(number) {
         const integerLen = Math.max(this.integer.length, number.integer.length);
         const decimalLen = Math.max(this.decimal.length, number.decimal.length);
         const integer1 = this.insert0(this.integer, integerLen, 0);
         const integer2 = this.insert0(number.integer, integerLen, 0);
         const decimal1 = this.insert0(this.decimal, decimalLen, 1);
         const decimal2 = this.insert0(number.decimal, decimalLen, 1);
-        for (let i = 0; i < integerLen; i++) {
-            const p = integer1[i] - integer2[i];
-            if (p) return Math.sign(p);
-        }
-        for (let i = 0; i < decimalLen; i++) {
-            const p = decimal1[i] - decimal2[i];
+        let arr1 = integer1.concat(decimal1);
+        let arr2 = integer2.concat(decimal2);
+        arr1 = arr1.map(e => e *= this.sign);
+        arr2 = arr2.map(e => e *= number.sign);
+        console.log(arr1, arr2);
+        for (let i = 0; i < arr1.length; i++) {
+            const p = arr1[i] - arr2[i];
             if (p) return Math.sign(p);
         }
         return 0;
     }
     addition(number) {
-
+        const integerLen = Math.max(this.integer.length, number.integer.length);
+        const decimalLen = Math.max(this.decimal.length, number.decimal.length);
+        const integer1 = this.insert0(this.integer, integerLen, 0);
+        const integer2 = this.insert0(number.integer, integerLen, 0);
+        const decimal1 = this.insert0(this.decimal, decimalLen, 1);
+        const decimal2 = this.insert0(number.decimal, decimalLen, 1);
+        let arr1 = integer1.concat(decimal1);
+        let arr2 = integer2.concat(decimal2);
+        arr1 = arr1.map(e => e *= this.sign);
+        arr2 = arr2.map(e => e *= number.sign);
+        console.log(arr1, arr2);
+        const resultArr = arr1.slice();
+        for (let i = 0; i < arr1.length; i++) {
+            resultArr[i] += arr2[i];
+        }
+        console.log(resultArr);
     }
 }
 
-let a = new ManyNumer(1, 123, 456);
+let a = new ManyNumer(1, 423, 456);
 // a.insert0(a.integer, 10, 1);
 
-let b = new ManyNumer(1, 0, 123456);
-let c = new ManyNumer(1, 123456, 0);
+let b = new ManyNumer(-1, 0, 0894376);
+let c = new ManyNumer(1, 897897897, 0);
 
 
 // console.log(a.integer, b.decimal);
