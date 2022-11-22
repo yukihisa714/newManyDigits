@@ -2,13 +2,13 @@ class ManyNumer {
     /**
      * 
      * @param {Number} sign 符号 1 / -1
-     * @param {Number} integer 整数部分
-     * @param {Number} decimal 少数部分
+     * @param {String} integer 整数部分
+     * @param {String} decimal 少数部分
      */
     constructor(sign, integer, decimal) {
         this.sign = sign;
-        this.integer = [...String(integer)].map(Number);
-        this.decimal = [...String(decimal)].map(Number);
+        this.integer = [...integer].map(Number);
+        this.decimal = [...decimal].map(Number);
     }
     /**
      * 0を挿入する
@@ -24,24 +24,6 @@ class ManyNumer {
         }
         return resultArr;
     }
-    compare(number) {
-        const integerLen = Math.max(this.integer.length, number.integer.length);
-        const decimalLen = Math.max(this.decimal.length, number.decimal.length);
-        const integer1 = this.insert0(this.integer, integerLen, 0);
-        const integer2 = this.insert0(number.integer, integerLen, 0);
-        const decimal1 = this.insert0(this.decimal, decimalLen, 1);
-        const decimal2 = this.insert0(number.decimal, decimalLen, 1);
-        let arr1 = integer1.concat(decimal1);
-        let arr2 = integer2.concat(decimal2);
-        arr1 = arr1.map(e => e *= this.sign);
-        arr2 = arr2.map(e => e *= number.sign);
-        console.log(arr1, arr2);
-        for (let i = 0; i < arr1.length; i++) {
-            const p = arr1[i] - arr2[i];
-            if (p) return Math.sign(p);
-        }
-        return 0;
-    }
     addition(number) {
         const integerLen = Math.max(this.integer.length, number.integer.length);
         const decimalLen = Math.max(this.decimal.length, number.decimal.length);
@@ -53,22 +35,54 @@ class ManyNumer {
         let arr2 = integer2.concat(decimal2);
         arr1 = arr1.map(e => e *= this.sign);
         arr2 = arr2.map(e => e *= number.sign);
-        console.log(arr1, arr2);
-        const resultArr = arr1.slice();
+        // console.log(arr1, arr2);
+        const sympleResultArr = arr1.slice();
         for (let i = 0; i < arr1.length; i++) {
-            resultArr[i] += arr2[i];
+            sympleResultArr[i] += arr2[i];
         }
-        console.log(resultArr);
+        sympleResultArr.unshift(0);
+        // console.log(sympleResultArr);
+        let resultSign = 0;
+        for (const i of sympleResultArr) {
+            if (i) {
+                resultSign = Math.sign(i);
+                break;
+            }
+        }
+        // console.log(resultSign);
+        let resultArr = [];
+        for (let i = sympleResultArr.length - 1; i >= 0; i--) {
+            if (Math.sign(-sympleResultArr[i]) === resultSign) {
+                sympleResultArr[i - 1] -= resultSign;
+            }
+            if (sympleResultArr[i] >= 10) {
+                sympleResultArr[i - 1]++;
+            }
+            resultArr[i] = (10 + sympleResultArr[i] * resultSign) % 10;
+        }
+        // console.log(resultArr);
+        const reusltStr = resultArr.join("");
+        // console.log(reusltStr);
+        let reusltInteger = reusltStr.slice(0, integerLen + 1);
+        let resultDecimal = reusltStr.slice(integerLen + 1);
+
+        while (reusltInteger[0] === "0") {
+            reusltInteger = reusltInteger.slice(1);
+        }
+        if (!reusltInteger) reusltInteger = "0";
+        while (resultDecimal[resultDecimal.length - 1] === "0") {
+            resultDecimal = resultDecimal.slice(0, -1);
+        }
+        if (!resultDecimal) resultDecimal = "0";
+        console.log(reusltInteger, resultDecimal);
+        return new ManyNumer(resultSign, reusltInteger, resultDecimal);
     }
 }
 
-let a = new ManyNumer(1, 423, 456);
-// a.insert0(a.integer, 10, 1);
+let a = new ManyNumer(1, "423", "456");
+let b = new ManyNumer(-1, "423", "456");
+let c = new ManyNumer(-1, "413", "546");
+let d = new ManyNumer(-1, "0", "0894376");
+let e = new ManyNumer(1, "897897897", "0");
+let f = new ManyNumer(1, "577", "320");
 
-let b = new ManyNumer(-1, 0, 0894376);
-let c = new ManyNumer(1, 897897897, 0);
-
-
-// console.log(a.integer, b.decimal);
-// console.log(b.integer, b.decimal);
-// console.log(c.integer, c.decimal);
