@@ -1,3 +1,5 @@
+// @ts-check
+
 class ManyNumer {
     /**
      * 
@@ -24,6 +26,20 @@ class ManyNumer {
         }
         return resultArr;
     }
+    delete0(integer, decimal) {
+        let deletedInteger = integer;
+        let deletedDecimal = decimal;
+        while (deletedInteger[0] === "0") {
+            deletedInteger = deletedInteger.slice(1);
+        }
+        if (!deletedInteger) deletedInteger = "0";
+        while (deletedDecimal[deletedDecimal.length - 1] === "0") {
+            deletedDecimal = deletedDecimal.slice(0, -1);
+        }
+        if (!deletedDecimal) deletedDecimal = "0";
+
+        return { integer: deletedInteger, decimal: deletedDecimal };
+    }
     addition(number) {
         const integerLen = Math.max(this.integer.length, number.integer.length);
         const decimalLen = Math.max(this.decimal.length, number.decimal.length);
@@ -33,7 +49,6 @@ class ManyNumer {
         const decimal2 = this.insert0(number.decimal, decimalLen, 1);
         let arr1 = integer1.concat(decimal1);
         let arr2 = integer2.concat(decimal2);
-        // const tmpFunc = (tmp, tmp2, tmp3) => { console.log(tmp, tmp2, tmp3) }; 実験
         arr1 = arr1.map(e => e *= this.sign);
         arr2 = arr2.map(e => e *= number.sign);
         console.log(arr1, arr2);
@@ -70,15 +85,9 @@ class ManyNumer {
         let reusltInteger = reusltStr.slice(0, integerLen + 1);
         let resultDecimal = reusltStr.slice(integerLen + 1);
 
-        while (reusltInteger[0] === "0") {
-            reusltInteger = reusltInteger.slice(1);
-        }
-        if (!reusltInteger) reusltInteger = "0";
-        while (resultDecimal[resultDecimal.length - 1] === "0") {
-            resultDecimal = resultDecimal.slice(0, -1);
-        }
-        if (!resultDecimal) resultDecimal = "0";
-        console.log(`${reusltInteger}.${resultDecimal}`);
+        const deleted = this.delete0(reusltInteger, resultDecimal);
+
+        console.log(`${deleted.integer}.${deleted.decimal}`);
 
         return new ManyNumer(resultSign, reusltInteger, resultDecimal);
     }
@@ -86,19 +95,48 @@ class ManyNumer {
     multiplication(number) {
         let arr1 = this.integer.concat(this.decimal);
         let arr2 = number.integer.concat(number.decimal);
+
+        const resultSign = this.sign * number.sign;
+
         let resultsArr = [];
         for (let i = 0; i < arr2.length; i++) {
             resultsArr[i] = Array(i).fill(0);
             let moveUp = 0;
-            for (let i2 = arr1.length - 1; i2 >= 10; i2--) {
+            for (let i2 = arr1.length - 1; i2 >= 0; i2--) {
                 const p = arr1[i2] * arr2[arr2.length - 1 - i] + moveUp;
                 moveUp = Math.floor(p / 10);
-                resultsArr[i].push(p % 10);
+                resultsArr[i].unshift(p % 10);
             }
-            resultsArr[i].push(moveUp);
-            resultsArr[i] = resultsArr[i].concat(Array(arr2.length - i - 1).fill(0));
+            resultsArr[i].unshift(moveUp);
+            resultsArr[i] = Array(arr2.length - i - 1).fill(0).concat(resultsArr[i]);
         }
         console.log(resultsArr);
+        let resultArr = [];
+        let moveUP2 = 0;
+        for (let digit = resultsArr[0].length - 1; digit >= 0; digit--) {
+            let p = 0;
+            for (let step = 0; step < resultsArr.length; step++) {
+                p += resultsArr[step][digit];
+            }
+            p += moveUP2;
+            moveUP2 = Math.floor(p / 10);
+            resultArr.unshift(p % 10);
+        }
+        resultArr.unshift(moveUP2);
+
+        console.log(resultArr);
+
+        const reusltStr = resultArr.join("");
+        const decimalLen = this.decimal.length + number.decimal.length;
+        let reusltInteger = reusltStr.slice(0, reusltStr.length - decimalLen);
+        let resultDecimal = reusltStr.slice(reusltStr.length - decimalLen);
+
+        const deleted = this.delete0(reusltInteger, resultDecimal);
+
+        console.log(`${deleted.integer}.${deleted.decimal}`);
+
+        return new ManyNumer(resultSign, deleted.integer, deleted.decimal);
+
     }
 }
 
@@ -108,5 +146,11 @@ let c = new ManyNumer(-1, "413", "546");
 let d = new ManyNumer(-1, "0", "0894376");
 let e = new ManyNumer(1, "897897897", "0");
 let f = new ManyNumer(1, "577", "320");
-let g = new ManyNumer(1, "079520784026742197420794510787654120927894015720", "2308465782304752348967107852");
-let h = new ManyNumer(1, "542309658304439026785909461045681304628947", "3349027820145891230456913456438902");
+let g = new ManyNumer(1,
+    "7952078402674219742079451078765413612378972813950162840926470834620927894015720",
+    "230846578230475234896718307465189737482013768305763822849738902577529398707852"
+);
+let h = new ManyNumer(1,
+    "542309658304439026785909480127931380712839721642735100120237861045681304628947",
+    "3349027820145891230456913438916051824701560123650182534901001387495108356438902"
+);
