@@ -90,7 +90,7 @@ class ManyNumer {
         for (let i = 0; i < arr2.length; i++) {
             resultsArr[i] = Array(i).fill(0);
             let moveUp = 0;
-            for (let i2 = arr1.length - 1; i2--) {
+            for (let i2 = arr1.length - 1; i2 >= 10; i2--) {
                 const p = arr1[i2] * arr2[arr2.length - 1 - i] + moveUp;
                 moveUp = Math.floor(p / 10);
                 resultsArr[i].push(p % 10);
