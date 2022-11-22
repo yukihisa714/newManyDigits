@@ -33,19 +33,21 @@ class ManyNumer {
         const decimal2 = this.insert0(number.decimal, decimalLen, 1);
         let arr1 = integer1.concat(decimal1);
         let arr2 = integer2.concat(decimal2);
+        // const tmpFunc = (tmp, tmp2, tmp3) => { console.log(tmp, tmp2, tmp3) }; 実験
         arr1 = arr1.map(e => e *= this.sign);
         arr2 = arr2.map(e => e *= number.sign);
-        // console.log(arr1, arr2);
+        console.log(arr1, arr2);
         const sympleResultArr = arr1.slice();
         for (let i = 0; i < arr1.length; i++) {
             sympleResultArr[i] += arr2[i];
         }
+        // 繰り上がりが入るために一番左に一桁増やす
         sympleResultArr.unshift(0);
         // console.log(sympleResultArr);
         let resultSign = 0;
-        for (const i of sympleResultArr) {
-            if (i) {
-                resultSign = Math.sign(i);
+        for (const e of sympleResultArr) {
+            if (e) {
+                resultSign = Math.sign(e);
                 break;
             }
         }
@@ -75,6 +77,7 @@ class ManyNumer {
         }
         if (!resultDecimal) resultDecimal = "0";
         console.log(reusltInteger, resultDecimal);
+
         return new ManyNumer(resultSign, reusltInteger, resultDecimal);
     }
 }
@@ -85,4 +88,3 @@ let c = new ManyNumer(-1, "413", "546");
 let d = new ManyNumer(-1, "0", "0894376");
 let e = new ManyNumer(1, "897897897", "0");
 let f = new ManyNumer(1, "577", "320");
-
