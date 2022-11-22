@@ -18,7 +18,7 @@ class ManyNumer {
      * @returns {Array} 0が増えた配列
      */
     insert0(array, length, position) {
-        let resultArr = array.slice();
+        const resultArr = array.slice();
         while (resultArr.length < length) {
             resultArr.splice(array.length * position, 0, 0);
         }
@@ -37,13 +37,14 @@ class ManyNumer {
         arr1 = arr1.map(e => e *= this.sign);
         arr2 = arr2.map(e => e *= number.sign);
         console.log(arr1, arr2);
+
         const sympleResultArr = arr1.slice();
         for (let i = 0; i < arr1.length; i++) {
             sympleResultArr[i] += arr2[i];
         }
         // 繰り上がりが入るために一番左に一桁増やす
         sympleResultArr.unshift(0);
-        // console.log(sympleResultArr);
+
         let resultSign = 0;
         for (const e of sympleResultArr) {
             if (e) {
@@ -52,6 +53,7 @@ class ManyNumer {
             }
         }
         // console.log(resultSign);
+
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
             if (Math.sign(-sympleResultArr[i]) === resultSign) {
@@ -62,7 +64,7 @@ class ManyNumer {
             }
             resultArr[i] = (10 + sympleResultArr[i] * resultSign) % 10;
         }
-        // console.log(resultArr);
+
         const reusltStr = resultArr.join("");
         // console.log(reusltStr);
         let reusltInteger = reusltStr.slice(0, integerLen + 1);
@@ -76,9 +78,27 @@ class ManyNumer {
             resultDecimal = resultDecimal.slice(0, -1);
         }
         if (!resultDecimal) resultDecimal = "0";
-        console.log(reusltInteger, resultDecimal);
+        console.log(`${reusltInteger}.${resultDecimal}`);
 
         return new ManyNumer(resultSign, reusltInteger, resultDecimal);
+    }
+
+    multiplication(number) {
+        let arr1 = this.integer.concat(this.decimal);
+        let arr2 = number.integer.concat(number.decimal);
+        let resultsArr = [];
+        for (let i = 0; i < arr2.length; i++) {
+            resultsArr[i] = Array(i).fill(0);
+            let moveUp = 0;
+            for (let i2 = arr1.length - 1; i2--) {
+                const p = arr1[i2] * arr2[arr2.length - 1 - i] + moveUp;
+                moveUp = Math.floor(p / 10);
+                resultsArr[i].push(p % 10);
+            }
+            resultsArr[i].push(moveUp);
+            resultsArr[i] = resultsArr[i].concat(Array(arr2.length - i - 1).fill(0));
+        }
+        console.log(resultsArr);
     }
 }
 
@@ -88,3 +108,5 @@ let c = new ManyNumer(-1, "413", "546");
 let d = new ManyNumer(-1, "0", "0894376");
 let e = new ManyNumer(1, "897897897", "0");
 let f = new ManyNumer(1, "577", "320");
+let g = new ManyNumer(1, "079520784026742197420794510787654120927894015720", "2308465782304752348967107852");
+let h = new ManyNumer(1, "542309658304439026785909461045681304628947", "3349027820145891230456913456438902");
