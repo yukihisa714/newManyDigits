@@ -12,6 +12,7 @@ class ManyNumer {
         this.integer = [...integer].map(Number);
         this.decimal = [...decimal].map(Number);
     }
+
     /**
      * 0を挿入する
      * @param {Array} array 増やす配列
@@ -26,13 +27,16 @@ class ManyNumer {
         }
         return resultArr;
     }
+
     delete0(integer, decimal) {
         let deletedInteger = integer;
         let deletedDecimal = decimal;
+
         while (deletedInteger[0] === "0") {
             deletedInteger = deletedInteger.slice(1);
         }
         if (!deletedInteger) deletedInteger = "0";
+
         while (deletedDecimal[deletedDecimal.length - 1] === "0") {
             deletedDecimal = deletedDecimal.slice(0, -1);
         }
@@ -40,6 +44,12 @@ class ManyNumer {
 
         return { integer: deletedInteger, decimal: deletedDecimal };
     }
+
+    /**
+     * 加算 (符号は問わない)
+     * @param {Object} number 足す数
+     * @returns {Object} 計算結果
+     */
     addition(number) {
         const integerLen = Math.max(this.integer.length, number.integer.length);
         const decimalLen = Math.max(this.decimal.length, number.decimal.length);
@@ -51,7 +61,7 @@ class ManyNumer {
         let arr2 = integer2.concat(decimal2);
         arr1 = arr1.map(e => e *= this.sign);
         arr2 = arr2.map(e => e *= number.sign);
-        console.log(arr1, arr2);
+        // console.log(arr1, arr2);
 
         const sympleResultArr = arr1.slice();
         for (let i = 0; i < arr1.length; i++) {
@@ -67,7 +77,6 @@ class ManyNumer {
                 break;
             }
         }
-        // console.log(resultSign);
 
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
@@ -81,9 +90,8 @@ class ManyNumer {
         }
 
         const reusltStr = resultArr.join("");
-        // console.log(reusltStr);
-        let reusltInteger = reusltStr.slice(0, integerLen + 1);
-        let resultDecimal = reusltStr.slice(integerLen + 1);
+        const reusltInteger = reusltStr.slice(0, integerLen + 1);
+        const resultDecimal = reusltStr.slice(integerLen + 1);
 
         const deleted = this.delete0(reusltInteger, resultDecimal);
 
@@ -92,10 +100,14 @@ class ManyNumer {
         return new ManyNumer(resultSign, reusltInteger, resultDecimal);
     }
 
+    /**
+     * 乗算 (符号は問わない)
+     * @param {Object} number 掛ける数
+     * @returns {Object} 計算結果
+     */
     multiplication(number) {
-        let arr1 = this.integer.concat(this.decimal);
-        let arr2 = number.integer.concat(number.decimal);
-
+        const arr1 = this.integer.concat(this.decimal);
+        const arr2 = number.integer.concat(number.decimal);
         const resultSign = this.sign * number.sign;
 
         let resultsArr = [];
@@ -110,8 +122,8 @@ class ManyNumer {
             resultsArr[i].unshift(moveUp);
             resultsArr[i] = Array(arr2.length - i - 1).fill(0).concat(resultsArr[i]);
         }
-        console.log(resultsArr);
-        let resultArr = [];
+
+        const resultArr = [];
         let moveUP2 = 0;
         for (let digit = resultsArr[0].length - 1; digit >= 0; digit--) {
             let p = 0;
@@ -124,12 +136,10 @@ class ManyNumer {
         }
         resultArr.unshift(moveUP2);
 
-        console.log(resultArr);
-
         const reusltStr = resultArr.join("");
         const decimalLen = this.decimal.length + number.decimal.length;
-        let reusltInteger = reusltStr.slice(0, reusltStr.length - decimalLen);
-        let resultDecimal = reusltStr.slice(reusltStr.length - decimalLen);
+        const reusltInteger = reusltStr.slice(0, reusltStr.length - decimalLen);
+        const resultDecimal = reusltStr.slice(reusltStr.length - decimalLen);
 
         const deleted = this.delete0(reusltInteger, resultDecimal);
 
@@ -153,4 +163,8 @@ let g = new ManyNumer(1,
 let h = new ManyNumer(1,
     "542309658304439026785909480127931380712839721642735100120237861045681304628947",
     "3349027820145891230456913438916051824701560123650182534901001387495108356438902"
+);
+let j = new ManyNumer(1,
+    "30124678120935612089356401349853458917340651983217343061892706182973810389751063751",
+    "128037713891185712838102356892347236182372394756310511000012837189376510825891"
 );
