@@ -56,6 +56,7 @@ class ManyInteger {
         const reusltStr = resultArr.join("");
         console.log(reusltStr);
 
+        return new ManyInteger(resultSign, reusltStr);
     }
 }
 
