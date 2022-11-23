@@ -70,21 +70,18 @@ class ManyNumer {
         // 繰り上がりが入るために一番左に一桁増やす
         sympleResultArr.unshift(0);
 
-        let resultSign = 0;
-        for (const e of sympleResultArr) {
-            if (e) {
-                resultSign = Math.sign(e);
-                break;
-            }
-        }
+        // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
+        const tmpSign = Math.sign(sympleResultArr.find(e => e));
+        const resultSign = tmpSign ? tmpSign : 0;
+        // console.log(sympleResultArr);
 
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
             if (Math.sign(-sympleResultArr[i]) === resultSign) {
                 sympleResultArr[i - 1] -= resultSign;
             }
-            if (sympleResultArr[i] >= 10) {
-                sympleResultArr[i - 1]++;
+            if (Math.abs(sympleResultArr[i]) >= 10) {
+                sympleResultArr[i - 1] += resultSign;
             }
             resultArr[i] = (10 + sympleResultArr[i] * resultSign) % 10;
         }
