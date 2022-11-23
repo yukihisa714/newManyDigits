@@ -1,5 +1,68 @@
 // @ts-check
 
+class ManyInteger {
+    constructor(sign, integer) {
+        this.sign = sign;
+        this.integer = [...integer].map(Number);
+    }
+
+    insert0(arr1, arr2) {
+        const array1 = arr1;
+        const array2 = arr2;
+        const arrLen = Math.max(array1.length, array2.length);
+        while (array1.length < arrLen) {
+            array1.unshift(0);
+        }
+        while (array2.length < arrLen) {
+            array2.unshift(0);
+        }
+        return { arr1: array1, arr2: array2 };
+    }
+
+    addition(number) {
+        const inserted0 = this.insert0(this.integer, number.integer);
+        const arr1 = inserted0.arr1.map(e => e *= this.sign);
+        const arr2 = inserted0.arr2.map(e => e *= number.sign);
+        console.log(arr1, arr2);
+
+        const sympleResultArr = arr1.slice();
+        for (let i = 0; i < arr1.length; i++) {
+            sympleResultArr[i] += arr2[i];
+        }
+        // 繰り上がりが入るために一番左に一桁増やす
+        sympleResultArr.unshift(0);
+
+        // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
+        const tmpSign = Math.sign(sympleResultArr.find(e => e));
+        const resultSign = tmpSign ? tmpSign : 0;
+        // console.log(sympleResultArr);
+
+        let resultArr = [];
+        for (let i = sympleResultArr.length - 1; i >= 0; i--) {
+            if (Math.sign(-sympleResultArr[i]) === resultSign) {
+                sympleResultArr[i - 1] -= resultSign;
+            }
+            if (Math.abs(sympleResultArr[i]) >= 10) {
+                sympleResultArr[i - 1] += resultSign;
+            }
+            resultArr[i] = (10 + sympleResultArr[i] * resultSign) % 10;
+        }
+
+        while (!resultArr[0]) {
+            resultArr.shift();
+        }
+        if (!resultArr.length) resultArr = [0];
+
+        const reusltStr = resultArr.join("");
+        console.log(reusltStr);
+
+    }
+}
+
+let pa = new ManyInteger(-1, "895623");
+let pb = new ManyInteger(1, "298364");
+
+
 class ManyNumer {
     /**
      * 
