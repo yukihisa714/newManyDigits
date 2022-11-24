@@ -19,11 +19,20 @@ class ManyInteger {
         return { arr1: array1, arr2: array2 };
     }
 
+    delete0(str) {
+        let deleted = str;
+        while (deleted[0] === "0") {
+            deleted = deleted.slice(1);
+        }
+        if (!deleted.length) deleted = "0";
+        return deleted;
+    }
+
     addition(number) {
         const inserted0 = this.insert0(this.integer, number.integer);
         const arr1 = inserted0.arr1.map(e => e *= this.sign);
         const arr2 = inserted0.arr2.map(e => e *= number.sign);
-        console.log(arr1, arr2);
+        // console.log(arr1, arr2);
 
         const sympleResultArr = arr1.slice();
         for (let i = 0; i < arr1.length; i++) {
@@ -47,21 +56,73 @@ class ManyInteger {
             }
             resultArr[i] = (10 + sympleResultArr[i] * resultSign) % 10;
         }
-
-        while (!resultArr[0]) {
-            resultArr.shift();
-        }
-        if (!resultArr.length) resultArr = [0];
+        // console.log(resultArr);
 
         const reusltStr = resultArr.join("");
-        console.log(reusltStr);
+        const deletedStr = this.delete0(reusltStr);
+        // console.log(reusltStr);
 
-        return new ManyInteger(resultSign, reusltStr);
+        return new ManyInteger(resultSign, deletedStr);
+    }
+
+    multiplication(number) {
+        const arr1 = this.integer;
+        const arr2 = number.integer;
+        const resultSign = this.sign * number.sign;
+
+        let resultsArr = [];
+        for (let i = 0; i < arr2.length; i++) {
+            resultsArr[i] = Array(i).fill(0);
+            let moveUp = 0;
+            for (let i2 = arr1.length - 1; i2 >= 0; i2--) {
+                const p = arr1[i2] * arr2[arr2.length - 1 - i] + moveUp;
+                moveUp = Math.floor(p / 10);
+                resultsArr[i].unshift(p % 10);
+            }
+            resultsArr[i].unshift(moveUp);
+            resultsArr[i] = Array(arr2.length - i - 1).fill(0).concat(resultsArr[i]);
+        }
+
+        const resultArr = [];
+        let moveUP2 = 0;
+        for (let digit = resultsArr[0].length - 1; digit >= 0; digit--) {
+            let p = 0;
+            for (let step = 0; step < resultsArr.length; step++) {
+                p += resultsArr[step][digit];
+            }
+            p += moveUP2;
+            moveUP2 = Math.floor(p / 10);
+            resultArr.unshift(p % 10);
+        }
+        resultArr.unshift(moveUP2);
+
+        const reusltStr = resultArr.join("");
+        const deletedStr = this.delete0(reusltStr);
+        // console.log(reusltStr);
+
+        return new ManyInteger(resultSign, deletedStr);
+    }
+
+    factorial() {
+        let arr = new ManyInteger(this.sign, this.integer.join(""));
+        const max = Number(arr.integer.join(""));
+        const minus1 = new ManyInteger(-1, "1");
+        console.log(arr, max, minus1);
+
+        let result = new ManyInteger(1, "1");
+        for (let i = 0; i < max; i++) {
+            result = result.multiplication(arr);
+            arr = arr.addition(minus1);
+            console.log(result, arr);
+        }
+        return result;
     }
 }
 
 let pa = new ManyInteger(-1, "895623");
 let pb = new ManyInteger(1, "298364");
+let pc = new ManyInteger(1, "10");
+let pd = new ManyInteger(-1, "298364");
 
 
 class ManyNumer {
