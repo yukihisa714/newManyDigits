@@ -3,6 +3,7 @@
 class ManyInteger {
     constructor(sign, integer) {
         this.sign = sign;
+        this.integerStr = integer;
         this.integer = [...integer].map(Number);
     }
 
@@ -104,19 +105,33 @@ class ManyInteger {
     }
 
     factorial() {
-        let arr = new ManyInteger(this.sign, this.integer.join(""));
-        const max = Number(arr.integer.join(""));
+        let arr = new ManyInteger(this.sign, this.integerStr);
+        const max = Number(arr.integerStr);
         const minus1 = new ManyInteger(-1, "1");
         console.log(arr, max, minus1);
 
         let result = new ManyInteger(1, "1");
-        for (let i = 0; i < max; i++) {
+        for (let i = 1; i < max; i++) {
             result = result.multiplication(arr);
             arr = arr.addition(minus1);
             console.log(result, arr);
         }
         return result;
     }
+
+    plusExponentiation(n) {
+        let arr = new ManyInteger(1, "1");
+        const arr2 = new ManyInteger(1, this.integerStr);
+        for (let i = 0; i < n; i++) {
+            arr = arr.multiplication(arr2);
+            console.log(arr);
+        }
+        return arr;
+    }
+}
+
+function minus1Exponentiation(n) {
+    return new ManyInteger((-1) ** (n % 2), "1");
 }
 
 let pa = new ManyInteger(-1, "895623");
@@ -268,6 +283,10 @@ class ManyNumer {
         console.log(`${deleted.integer}.${deleted.decimal}`);
 
         return new ManyNumer(resultSign, deleted.integer, deleted.decimal);
+
+    }
+
+    division(number) {
 
     }
 }
