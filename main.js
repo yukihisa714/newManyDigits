@@ -44,8 +44,7 @@ class ManyInteger {
 
         // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
         // NaNにも対応させるためビット演算を使用する
-        const resultSign = Math.sign(sympleResultArr.find(e => e)) << 1;
-        // console.log(resultSign);
+        const resultSign = Math.sign(sympleResultArr.find(e => e)) & 1;
 
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
@@ -124,9 +123,25 @@ class ManyInteger {
         const arr2 = new ManyInteger(1, this.integerStr);
         for (let i = 0; i < n; i++) {
             arr = arr.multiplication(arr2);
-            console.log(arr);
         }
         return arr;
+    }
+
+    division(number) {
+        let p1 = this.integerStr;
+        let p2 = new ManyInteger(1, number.integerStr);
+        // let p2 = new ManyInteger(1, number.integerStr);
+
+        const p = new ManyInteger(1, "1");
+        let pp = new ManyInteger(0, "0")
+        let a = new ManyInteger(0, "0");
+        while (true) {
+            pp = pp.addition(p);
+            a = a.addition(p2);
+            if (a.integerStr === p1) break;
+        }
+
+        return (pp);
     }
 }
 
@@ -136,8 +151,10 @@ function minus1Exponentiation(n) {
 
 let pa = new ManyInteger(-1, "895623");
 let pb = new ManyInteger(1, "298364");
-let pc = new ManyInteger(1, "10");
+let pc = new ManyInteger(1, "194");
 let pd = new ManyInteger(-1, "298364");
+let pe = new ManyInteger(1, "582000000");
+let pf = new ManyInteger(-1, "194");
 
 
 class ManyNumer {
@@ -212,7 +229,7 @@ class ManyNumer {
 
         // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
         // NaNにも対応させるためビット演算を使用する
-        const resultSign = Math.sign(sympleResultArr.find(e => e)) << 1;
+        const resultSign = Math.sign(sympleResultArr.find(e => e)) & 1;
 
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
