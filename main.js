@@ -43,9 +43,9 @@ class ManyInteger {
         sympleResultArr.unshift(0);
 
         // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
-        const tmpSign = Math.sign(sympleResultArr.find(e => e));
-        const resultSign = tmpSign ? tmpSign : 0;
-        // console.log(sympleResultArr);
+        // NaNにも対応させるためビット演算を使用する
+        const resultSign = Math.sign(sympleResultArr.find(e => e)) << 1;
+        // console.log(resultSign);
 
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
@@ -211,9 +211,8 @@ class ManyNumer {
         sympleResultArr.unshift(0);
 
         // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
-        const tmpSign = Math.sign(sympleResultArr.find(e => e));
-        const resultSign = tmpSign ? tmpSign : 0;
-        // console.log(sympleResultArr);
+        // NaNにも対応させるためビット演算を使用する
+        const resultSign = Math.sign(sympleResultArr.find(e => e)) << 1;
 
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
