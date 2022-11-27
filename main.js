@@ -127,21 +127,68 @@ class ManyInteger {
         return arr;
     }
 
-    division(number) {
-        let p1 = this.integerStr;
-        let p2 = new ManyInteger(1, number.integerStr);
-        // let p2 = new ManyInteger(1, number.integerStr);
 
-        const p = new ManyInteger(1, "1");
-        let pp = new ManyInteger(0, "0")
-        let a = new ManyInteger(0, "0");
-        while (true) {
-            pp = pp.addition(p);
-            a = a.addition(p2);
-            if (a.integerStr === p1) break;
+    division(number) {
+        let p1 = this;
+        let p1Len = p1.integer.length;
+        let numLen = number.integer.length;
+
+        let minusNumber = new ManyInteger(-1, number.integerStr);
+
+        let left = 0;
+        let right = numLen + 1;
+        console.log(left, right);
+        let resultArr = [];
+        // p1.integer.unshift(0);
+        for (let i = 0; i <= p1Len - numLen; i++) {
+            let tmpArr = p1.integer.splice(left, right + 1);
+            console.log(p1.integer, tmpArr);
+            let tmpInteger = new ManyInteger(1, tmpArr.join(""));
+            let firstTmpItgLen = tmpInteger.integer.length;
+            console.log(tmpInteger);
+            let p = 0;
+            while (true) {
+                let pp = tmpInteger.addition(minusNumber);
+                if (pp.sign === 1) {
+                    tmpInteger = pp;
+                    p++;
+                }
+                else if (pp.sign === 0) {
+                    tmpInteger = pp;
+                    p++;
+                    resultArr.push(p);
+                    break;
+                }
+                else {
+                    resultArr.push(p);
+                    break;
+                }
+                // if (pp.sign === 0) {
+                //     p++;
+
+                //     resultArr.push(p);
+                //     console.log(p);
+                //     break;
+                // }
+                // else {
+                //     tmpInteger = tmpInteger.addition(minusNumber);
+                //     p++;
+                // }
+            }
+            console.log(tmpInteger);
+            let a = firstTmpItgLen - tmpInteger.integer.length;
+            for (let b = 0; b < a; b++) {
+                tmpInteger.integer.unshift(0);
+                console.log(tmpInteger.integer);
+            }
+            for (let c = tmpInteger.integer.length - 1; c >= 1; c--) {
+                p1.integer.unshift(tmpInteger.integer[c]);
+            }
+            console.log(p1.integer);
+            console.log(resultArr);
         }
 
-        return (pp);
+        return resultArr;
     }
 }
 
@@ -151,11 +198,19 @@ function minus1Exponentiation(n) {
 
 let pa = new ManyInteger(-1, "895623");
 let pb = new ManyInteger(1, "298364");
-let pc = new ManyInteger(1, "194");
+let pc = new ManyInteger(1, "134");
 let pd = new ManyInteger(-1, "298364");
-let pe = new ManyInteger(1, "582000000");
-let pf = new ManyInteger(-1, "194");
-
+let pg = [
+    new ManyInteger(1, "134"),
+    new ManyInteger(1, "268"),
+    new ManyInteger(1, "402"),
+    new ManyInteger(1, "536"),
+    new ManyInteger(1, "670"),
+    new ManyInteger(1, "804"),
+    new ManyInteger(1, "938"),
+    new ManyInteger(1, "1072"),
+    new ManyInteger(1, "1206"),
+]
 
 class ManyNumer {
     /**
