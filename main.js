@@ -140,6 +140,7 @@ class ManyInteger {
         console.log(left, right);
         let resultArr = [];
         // p1.integer.unshift(0);
+        console.log(p1Len - numLen);
         for (let i = 0; i <= p1Len - numLen; i++) {
             let tmpArr = p1.integer.splice(left, right + 1);
             console.log(p1.integer, tmpArr);
@@ -149,6 +150,7 @@ class ManyInteger {
             let p = 0;
             while (true) {
                 let pp = tmpInteger.addition(minusNumber);
+                console.log(pp);
                 if (pp.sign === 1) {
                     tmpInteger = pp;
                     p++;
@@ -156,13 +158,13 @@ class ManyInteger {
                 else if (pp.sign === 0) {
                     tmpInteger = pp;
                     p++;
-                    resultArr.push(p);
+                    // resultArr.push(p);
                     break;
                 }
                 else {
-                    resultArr.push(p);
                     break;
                 }
+                resultArr.push(p);
                 // if (pp.sign === 0) {
                 //     p++;
 
@@ -179,6 +181,7 @@ class ManyInteger {
             let a = firstTmpItgLen - tmpInteger.integer.length;
             for (let b = 0; b < a; b++) {
                 tmpInteger.integer.unshift(0);
+                // p1 = new ManyInteger(1, tmpInteger.integerStr);
                 console.log(tmpInteger.integer);
             }
             for (let c = tmpInteger.integer.length - 1; c >= 1; c--) {
