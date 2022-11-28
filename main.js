@@ -129,11 +129,12 @@ class ManyInteger {
 
 
     division(number) {
-        let p1 = this;
+        let p1 = new ManyInteger(1, this.integerStr);
         let p1Len = p1.integer.length;
         let numLen = number.integer.length;
 
-        let minusNumber = new ManyInteger(-1, number.integerStr);
+        const minusNumber = new ManyInteger(-1, number.integerStr);
+        console.log(minusNumber);
 
         let left = 0;
         let right = numLen + 1;
@@ -150,7 +151,7 @@ class ManyInteger {
             let p = 0;
             while (true) {
                 let pp = tmpInteger.addition(minusNumber);
-                console.log(pp);
+                console.log(pp.integerStr);
                 if (pp.sign === 1) {
                     tmpInteger = pp;
                     p++;
@@ -158,13 +159,14 @@ class ManyInteger {
                 else if (pp.sign === 0) {
                     tmpInteger = pp;
                     p++;
-                    // resultArr.push(p);
+                    resultArr.push(p);
                     break;
                 }
                 else {
+                    resultArr.push(p);
                     break;
                 }
-                resultArr.push(p);
+                console.log(p);
                 // if (pp.sign === 0) {
                 //     p++;
 
@@ -184,10 +186,13 @@ class ManyInteger {
                 // p1 = new ManyInteger(1, tmpInteger.integerStr);
                 console.log(tmpInteger.integer);
             }
-            for (let c = tmpInteger.integer.length - 1; c >= 1; c--) {
-                p1.integer.unshift(tmpInteger.integer[c]);
-            }
-            console.log(p1.integer);
+            // for (let c = tmpInteger.integer.length - 1; c >= 1; c--) {
+            //     p1.integer.unshift(tmpInteger.integer[c]);
+            //     console.log(p1.integer);
+            // }
+            tmpInteger.integer = tmpInteger.integer.concat(p1.integer);
+            p1 = new ManyInteger(1, tmpInteger.integer.join(""));
+            console.log(p1);
             console.log(resultArr);
         }
 
