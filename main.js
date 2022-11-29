@@ -8,8 +8,8 @@ class ManyInteger {
     }
 
     insert0(arr1, arr2) {
-        const array1 = arr1;
-        const array2 = arr2;
+        const array1 = arr1.slice();
+        const array2 = arr2.slice();
         const arrLen = Math.max(array1.length, array2.length);
         while (array1.length < arrLen) {
             array1.unshift(0);
@@ -44,7 +44,7 @@ class ManyInteger {
 
         // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
         // NaNにも対応させるためビット演算を使用する
-        const resultSign = Math.sign(sympleResultArr.find(e => e)) & 1;
+        const resultSign = (Math.sign(sympleResultArr.find(e => e)) << 1) / 2;
 
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
@@ -129,74 +129,74 @@ class ManyInteger {
 
 
     division(number) {
-        let p1 = new ManyInteger(1, this.integerStr);
-        let p1Len = p1.integer.length;
         let numLen = number.integer.length;
+        let p1 = new ManyInteger(1, this.integerStr);
+        if (p1.integer.length === numLen) {
+            p1 = new ManyInteger(1, "0" + p1.integerStr);
+        }
+        let p1Len = p1.integer.length;
 
         const minusNumber = new ManyInteger(-1, number.integerStr);
-        console.log(minusNumber);
+        // console.log(minusNumber);
 
         let left = 0;
         let right = numLen + 1;
-        console.log(left, right);
+        // console.log(left, right);
         let resultArr = [];
         // p1.integer.unshift(0);
-        console.log(p1Len - numLen);
-        for (let i = 0; i <= p1Len - numLen; i++) {
-            let tmpArr = p1.integer.splice(left, right + 1);
-            console.log(p1.integer, tmpArr);
-            let tmpInteger = new ManyInteger(1, tmpArr.join(""));
+        // console.log(p1Len - numLen);
+        for (let i = 0; i < p1Len - numLen; i++) {
+            let tmpArr = p1.integer.splice(left, right);
+            // console.log(p1.integer, tmpArr);
+            let tmpInteger = new ManyInteger(Math.sign(Number(tmpArr.join(""))), tmpArr.join(""));
             let firstTmpItgLen = tmpInteger.integer.length;
-            console.log(tmpInteger);
+            // console.log(tmpInteger);
             let p = 0;
             while (true) {
                 let pp = tmpInteger.addition(minusNumber);
-                console.log(pp.integerStr);
+                // console.log(pp, tmpInteger);
                 if (pp.sign === 1) {
                     tmpInteger = pp;
                     p++;
+                    // console.log(tmpInteger, pp);
+                    // console.log("まだいける");
                 }
                 else if (pp.sign === 0) {
                     tmpInteger = pp;
                     p++;
                     resultArr.push(p);
+                    // console.log("割り切れた");
                     break;
                 }
-                else {
+                else if (pp.sign === -1) {
                     resultArr.push(p);
+                    // console.log("やり過ぎた");
+                    // console.log("pp", pp);
+                    // console.log("tmpInteger", tmpInteger);
                     break;
                 }
-                console.log(p);
-                // if (pp.sign === 0) {
-                //     p++;
-
-                //     resultArr.push(p);
-                //     console.log(p);
-                //     break;
-                // }
-                // else {
-                //     tmpInteger = tmpInteger.addition(minusNumber);
-                //     p++;
-                // }
             }
-            console.log(tmpInteger);
+            // console.log(tmpInteger);
             let a = firstTmpItgLen - tmpInteger.integer.length;
-            for (let b = 0; b < a; b++) {
+            for (let b = 1; b < a; b++) {
                 tmpInteger.integer.unshift(0);
                 // p1 = new ManyInteger(1, tmpInteger.integerStr);
-                console.log(tmpInteger.integer);
+                // console.log(tmpInteger.integer);
             }
             // for (let c = tmpInteger.integer.length - 1; c >= 1; c--) {
             //     p1.integer.unshift(tmpInteger.integer[c]);
             //     console.log(p1.integer);
             // }
+            // console.log(tmpInteger.integer);
             tmpInteger.integer = tmpInteger.integer.concat(p1.integer);
-            p1 = new ManyInteger(1, tmpInteger.integer.join(""));
-            console.log(p1);
-            console.log(resultArr);
+            // console.log(tmpInteger.integer);
+            let tmpStr = tmpInteger.integer.join("");
+            p1 = new ManyInteger(Math.sign(Number(tmpStr)), tmpStr);
+            // console.log(p1);
+            // console.log(resultArr);
         }
 
-        return resultArr;
+        return new ManyInteger(1, resultArr.join(""));
     }
 }
 
@@ -208,16 +208,18 @@ let pa = new ManyInteger(-1, "895623");
 let pb = new ManyInteger(1, "298364");
 let pc = new ManyInteger(1, "134");
 let pd = new ManyInteger(-1, "298364");
+let pe = new ManyInteger(0, "0");
 let pg = [
     new ManyInteger(1, "134"),
     new ManyInteger(1, "268"),
-    new ManyInteger(1, "402"),
-    new ManyInteger(1, "536"),
-    new ManyInteger(1, "670"),
-    new ManyInteger(1, "804"),
     new ManyInteger(1, "938"),
     new ManyInteger(1, "1072"),
-    new ManyInteger(1, "1206"),
+    new ManyInteger(1, "1340"),
+    new ManyInteger(1, "11122"),
+    new ManyInteger(1, "13400"),
+    new ManyInteger(1, "13534"),
+    new ManyInteger(1, "48910"),
+    new ManyInteger(1, "72283218"),
 ]
 
 class ManyNumer {
@@ -292,7 +294,7 @@ class ManyNumer {
 
         // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
         // NaNにも対応させるためビット演算を使用する
-        const resultSign = Math.sign(sympleResultArr.find(e => e)) & 1;
+        const resultSign = (Math.sign(sympleResultArr.find(e => e)) << 1) / 2;
 
         let resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
