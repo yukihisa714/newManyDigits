@@ -3,6 +3,7 @@
 class ManyInteger {
     constructor(sign, integer) {
         this.sign = sign;
+        if (Number(integer) === 0) this.sign = 0;
         this.integerStr = integer;
         this.integer = [...integer].map(Number);
     }
@@ -129,72 +130,55 @@ class ManyInteger {
 
 
     division(number) {
-        let numLen = number.integer.length;
-        let p1 = new ManyInteger(1, this.integerStr);
-        if (p1.integer.length === numLen) {
-            p1 = new ManyInteger(1, "0" + p1.integerStr);
-        }
-        let p1Len = p1.integer.length;
-
+        const numLen = number.integer.length;
+        let p1 = this.integer.length === numLen ?
+            new ManyInteger(1, "0" + this.integerStr)
+            : new ManyInteger(1, this.integerStr);
+        const p1Len = p1.integer.length;
         const minusNumber = new ManyInteger(-1, number.integerStr);
-        // console.log(minusNumber);
 
-        let left = 0;
-        let right = numLen + 1;
-        // console.log(left, right);
-        let resultArr = [];
-        // p1.integer.unshift(0);
+        const resultArr = [];
         // console.log(p1Len - numLen);
         for (let i = 0; i < p1Len - numLen; i++) {
-            let tmpArr = p1.integer.splice(left, right);
+            const tmpArr = p1.integer.splice(0, numLen + 1);
             // console.log(p1.integer, tmpArr);
-            let tmpInteger = new ManyInteger(Math.sign(Number(tmpArr.join(""))), tmpArr.join(""));
-            let firstTmpItgLen = tmpInteger.integer.length;
+            let tmpInteger = new ManyInteger(1, tmpArr.join(""));
+            const firstTmpItgLen = tmpInteger.integer.length;
             // console.log(tmpInteger);
             let p = 0;
             while (true) {
-                let pp = tmpInteger.addition(minusNumber);
+                const pp = tmpInteger.addition(minusNumber);
                 // console.log(pp, tmpInteger);
                 if (pp.sign === 1) {
                     tmpInteger = pp;
                     p++;
-                    // console.log(tmpInteger, pp);
-                    // console.log("まだいける");
                 }
                 else if (pp.sign === 0) {
                     tmpInteger = pp;
                     p++;
                     resultArr.push(p);
-                    // console.log("割り切れた");
                     break;
                 }
-                else if (pp.sign === -1) {
+                else {
                     resultArr.push(p);
-                    // console.log("やり過ぎた");
-                    // console.log("pp", pp);
-                    // console.log("tmpInteger", tmpInteger);
                     break;
                 }
             }
-            // console.log(tmpInteger);
-            let a = firstTmpItgLen - tmpInteger.integer.length;
+            // console.log(tmpInteger.integer);
+            while (tmpInteger.integer[0] === 0) {
+                tmpInteger.integer.shift();
+            }
+            const a = firstTmpItgLen - tmpInteger.integer.length;
             for (let b = 1; b < a; b++) {
                 tmpInteger.integer.unshift(0);
-                // p1 = new ManyInteger(1, tmpInteger.integerStr);
                 // console.log(tmpInteger.integer);
             }
-            // for (let c = tmpInteger.integer.length - 1; c >= 1; c--) {
-            //     p1.integer.unshift(tmpInteger.integer[c]);
-            //     console.log(p1.integer);
-            // }
             // console.log(tmpInteger.integer);
-            tmpInteger.integer = tmpInteger.integer.concat(p1.integer);
-            // console.log(tmpInteger.integer);
-            let tmpStr = tmpInteger.integer.join("");
-            p1 = new ManyInteger(Math.sign(Number(tmpStr)), tmpStr);
-            // console.log(p1);
+            p1 = new ManyInteger(1, tmpInteger.integer.concat(p1.integer).join(""));
+            console.log(p1);
             // console.log(resultArr);
         }
+        // console.log(resultArr);
 
         return new ManyInteger(1, resultArr.join(""));
     }
@@ -218,8 +202,9 @@ let pg = [
     new ManyInteger(1, "11122"),
     new ManyInteger(1, "13400"),
     new ManyInteger(1, "13534"),
-    new ManyInteger(1, "48910"),
     new ManyInteger(1, "72283218"),
+    new ManyInteger(1, "1213310236"),
+    new ManyInteger(1, "1340000000134"),
 ]
 
 class ManyNumer {
