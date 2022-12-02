@@ -144,7 +144,6 @@ class ManyInteger {
             // console.log(p1.integer, tmpArr);
             let tmpInteger = new ManyInteger(1, tmpArr.join(""));
             const firstTmpItgLen = tmpInteger.integer.length;
-            // console.log(tmpInteger);
             let p = 0;
             while (true) {
                 const pp = tmpInteger.addition(minusNumber);
@@ -175,8 +174,7 @@ class ManyInteger {
             }
             // console.log(tmpInteger.integer);
             p1 = new ManyInteger(1, tmpInteger.integer.concat(p1.integer).join(""));
-            console.log(p1);
-            // console.log(resultArr);
+            // console.log(p1);
         }
         // console.log(resultArr);
 
@@ -205,6 +203,7 @@ let pg = [
     new ManyInteger(1, "72283218"),
     new ManyInteger(1, "1213310236"),
     new ManyInteger(1, "1340000000134"),
+    new ManyInteger(1, "1222977397446848"),
 ]
 
 class ManyNumer {
