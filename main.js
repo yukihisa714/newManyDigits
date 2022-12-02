@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 
 class ManyInteger {
     constructor(sign, integer) {
@@ -8,6 +8,12 @@ class ManyInteger {
         this.integer = [...integer].map(Number);
     }
 
+    /**
+     * 配列の頭に0を入れて長さを揃える
+     * @param {Array} arr1 一つ目
+     * @param {Array} arr2 二つ目
+     * @returns 
+     */
     insert0(arr1, arr2) {
         const array1 = arr1.slice();
         const array2 = arr2.slice();
@@ -21,12 +27,12 @@ class ManyInteger {
         return { arr1: array1, arr2: array2 };
     }
 
-    delete0(str) {
-        let deleted = str;
-        while (deleted[0] === "0") {
-            deleted = deleted.slice(1);
+    delete0(arr) {
+        const deleted = arr.slice();
+        while (deleted[0] === 0) {
+            deleted.shift();
         }
-        if (!deleted.length) deleted = "0";
+        if (!deleted.length) deleted.push(0);
         return deleted;
     }
 
@@ -34,20 +40,16 @@ class ManyInteger {
         const inserted0 = this.insert0(this.integer, number.integer);
         const arr1 = inserted0.arr1.map(e => e *= this.sign);
         const arr2 = inserted0.arr2.map(e => e *= number.sign);
-        // console.log(arr1, arr2);
+        const sympleResultArr = arr1.map((e, i) => e += arr2[i]);
 
-        const sympleResultArr = arr1.slice();
-        for (let i = 0; i < arr1.length; i++) {
-            sympleResultArr[i] += arr2[i];
-        }
         // 繰り上がりが入るために一番左に一桁増やす
         sympleResultArr.unshift(0);
 
-        // 配列の頭から見て初めてきた0じゃない数字の符号が計算結果の符号
+        // 配列の頭から見て初めて出てきた0じゃない数字の符号が計算結果の符号
         // NaNにも対応させるためビット演算を使用する
-        const resultSign = (Math.sign(sympleResultArr.find(e => e)) << 1) / 2;
+        const resultSign = Math.sign(sympleResultArr.find(e => e) << 1);
 
-        let resultArr = [];
+        const resultArr = [];
         for (let i = sympleResultArr.length - 1; i >= 0; i--) {
             if (Math.sign(-sympleResultArr[i]) === resultSign) {
                 sympleResultArr[i - 1] -= resultSign;
@@ -57,13 +59,11 @@ class ManyInteger {
             }
             resultArr[i] = (10 + sympleResultArr[i] * resultSign) % 10;
         }
-        // console.log(resultArr);
 
-        const reusltStr = resultArr.join("");
-        const deletedStr = this.delete0(reusltStr);
-        // console.log(reusltStr);
+        const deletedArr = this.delete0(resultArr);
+        const reusltStr = deletedArr.join("");
 
-        return new ManyInteger(resultSign, deletedStr);
+        return new ManyInteger(resultSign, reusltStr);
     }
 
     multiplication(number) {
@@ -97,11 +97,11 @@ class ManyInteger {
         }
         resultArr.unshift(moveUP2);
 
-        const reusltStr = resultArr.join("");
-        const deletedStr = this.delete0(reusltStr);
+        const deletedArr = this.delete0(resultArr);
+        const reusltStr = deletedArr.join("");
         // console.log(reusltStr);
 
-        return new ManyInteger(resultSign, deletedStr);
+        return new ManyInteger(resultSign, reusltStr);
     }
 
     factorial() {
