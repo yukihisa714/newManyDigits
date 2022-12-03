@@ -138,45 +138,30 @@ class ManyInteger {
         const minusNumber = new ManyInteger(-1, number.integerStr);
 
         const resultArr = [];
-        // console.log(p1Len - numLen);
         for (let i = 0; i < p1Len - numLen; i++) {
             const tmpArr = p1.integer.splice(0, numLen + 1);
-            // console.log(p1.integer, tmpArr);
             let tmpInteger = new ManyInteger(1, tmpArr.join(""));
-            const firstTmpItgLen = tmpInteger.integer.length;
             let p = 0;
             while (true) {
                 const pp = tmpInteger.addition(minusNumber);
-                // console.log(pp, tmpInteger);
-                if (pp.sign === 1) {
+                if (0 <= pp.sign) {
                     tmpInteger = pp;
                     p++;
                 }
-                else if (pp.sign === 0) {
-                    tmpInteger = pp;
-                    p++;
-                    resultArr.push(p);
-                    break;
-                }
-                else {
+                if (pp.sign <= 0) {
                     resultArr.push(p);
                     break;
                 }
             }
-            // console.log(tmpInteger.integer);
-            while (tmpInteger.integer[0] === 0) {
+            while (tmpInteger.integer.length < numLen) {
+                tmpInteger.integer.unshift(0);
+            }
+            while (tmpInteger.integer.length > numLen) {
                 tmpInteger.integer.shift();
             }
-            const a = firstTmpItgLen - tmpInteger.integer.length;
-            for (let b = 1; b < a; b++) {
-                tmpInteger.integer.unshift(0);
-                // console.log(tmpInteger.integer);
-            }
-            // console.log(tmpInteger.integer);
             p1 = new ManyInteger(1, tmpInteger.integer.concat(p1.integer).join(""));
-            // console.log(p1);
         }
-        // console.log(resultArr);
+        if (!resultArr.length) resultArr[0] = 0;
 
         return new ManyInteger(1, resultArr.join(""));
     }
