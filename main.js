@@ -168,6 +168,46 @@ class ManyInteger {
 
         return new ManyInteger(1, resultArr.join(""));
     }
+
+    division2(number) {
+        const numLen = number.integer.length;
+        const p1 = this.integer.length === numLen ?
+            new ManyInteger(1, "0" + this.integerStr)
+            : new ManyInteger(1, this.integerStr);
+        const minusNumber = new ManyInteger(-1, number.integerStr);
+
+        const resultArr = [];
+        let tmpArr = p1.integer.splice(0, numLen);
+        while (p1.integer.length) {
+            tmpArr.push(p1.integer.splice(0, 1)[0]);
+            let tmpInteger = new ManyInteger(1, tmpArr.join(""));
+            let p = 0;
+            while (true) {
+                const pp = tmpInteger.addition(minusNumber);
+                if (0 <= pp.sign) {
+                    tmpInteger = pp;
+                    p++;
+                }
+                if (pp.sign <= 0) {
+                    resultArr.push(p);
+                    break;
+                }
+            }
+
+            while (tmpInteger.integer.length < numLen) {
+                tmpInteger.integer.unshift(0);
+            }
+            while (tmpInteger.integer.length > numLen) {
+                tmpInteger.integer.shift();
+            }
+
+            tmpArr = tmpInteger.integer.slice();
+        }
+
+        if (!resultArr.length) resultArr[0] = 0;
+
+        return new ManyInteger(1, resultArr.join(""));
+    }
 }
 
 function minus1Exponentiation(n) {
