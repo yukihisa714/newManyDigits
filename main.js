@@ -24,7 +24,7 @@ class ManyInteger {
         while (array2.length < arrLen) {
             array2.unshift(0);
         }
-        return { arr1: array1, arr2: array2 };
+        return { array1, array2 };
     }
 
     delete0(arr) {
@@ -38,8 +38,8 @@ class ManyInteger {
 
     addition(number) {
         const inserted0 = this.insert0(this.integer, number.integer);
-        const arr1 = inserted0.arr1.map(e => e *= this.sign);
-        const arr2 = inserted0.arr2.map(e => e *= number.sign);
+        const arr1 = inserted0.array1.map(e => e *= this.sign);
+        const arr2 = inserted0.array2.map(e => e *= number.sign);
         const sympleResultArr = arr1.map((e, i) => e += arr2[i]);
 
         // 繰り上がりが入るために一番左に一桁増やす
