@@ -153,14 +153,17 @@ class ManyInteger {
                     break;
                 }
             }
+
             while (tmpInteger.integer.length < numLen) {
                 tmpInteger.integer.unshift(0);
             }
             while (tmpInteger.integer.length > numLen) {
                 tmpInteger.integer.shift();
             }
+
             p1 = new ManyInteger(1, tmpInteger.integer.concat(p1.integer).join(""));
         }
+
         if (!resultArr.length) resultArr[0] = 0;
 
         return new ManyInteger(1, resultArr.join(""));
