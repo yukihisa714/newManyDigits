@@ -130,6 +130,7 @@ class ManyInteger {
 
 
     division(number) {
+        // const st = Date.now();
         const numLen = number.integer.length;
         let p1 = this.integer.length === numLen ?
             new ManyInteger(1, "0" + this.integerStr)
@@ -166,10 +167,13 @@ class ManyInteger {
 
         if (!resultArr.length) resultArr[0] = 0;
 
+        // const ed = Date.now();
+        // console.log(ed - st);
         return new ManyInteger(1, resultArr.join(""));
     }
 
     division2(number) {
+        // const st = Date.now();
         const numLen = number.integer.length;
         const p1 = this.integer.length === numLen ?
             new ManyInteger(1, "0" + this.integerStr)
@@ -206,6 +210,8 @@ class ManyInteger {
 
         if (!resultArr.length) resultArr[0] = 0;
 
+        // const ed = Date.now();
+        // console.log(ed - st);
         return new ManyInteger(1, resultArr.join(""));
     }
 }
@@ -232,6 +238,7 @@ let pg = [
     new ManyInteger(1, "1213310236"),
     new ManyInteger(1, "1340000000134"),
     new ManyInteger(1, "1222977397446848"),
+    new ManyInteger(1, "1988360333122163298702744246541041152"),
 ]
 
 class ManyNumer {
