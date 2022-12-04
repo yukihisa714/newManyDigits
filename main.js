@@ -131,6 +131,7 @@ class ManyInteger {
 
     division(number) {
         // const st = Date.now();
+        const resultSign = this.sign * number.sign;
         const numLen = number.integer.length;
         const p1 = this.integer.length === numLen ?
             new ManyInteger(1, "0" + this.integerStr)
@@ -169,7 +170,7 @@ class ManyInteger {
 
         // const ed = Date.now();
         // console.log(ed - st);
-        return new ManyInteger(1, resultArr.join(""));
+        return new ManyInteger(resultSign, resultArr.join(""));
     }
 }
 
