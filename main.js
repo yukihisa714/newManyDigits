@@ -108,13 +108,13 @@ class ManyInteger {
         let arr = new ManyInteger(this.sign, this.integerStr);
         const max = Number(arr.integerStr);
         const minus1 = new ManyInteger(-1, "1");
-        console.log(arr, max, minus1);
+        // console.log(arr, max, minus1);
 
         let result = new ManyInteger(1, "1");
         for (let i = 1; i < max; i++) {
             result = result.multiplication(arr);
             arr = arr.addition(minus1);
-            console.log(result, arr);
+            // console.log(result, arr);
         }
         return result;
     }
