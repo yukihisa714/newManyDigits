@@ -132,49 +132,6 @@ class ManyInteger {
     division(number) {
         // const st = Date.now();
         const numLen = number.integer.length;
-        let p1 = this.integer.length === numLen ?
-            new ManyInteger(1, "0" + this.integerStr)
-            : new ManyInteger(1, this.integerStr);
-        const p1Len = p1.integer.length;
-        const minusNumber = new ManyInteger(-1, number.integerStr);
-
-        const resultArr = [];
-        for (let i = 0; i < p1Len - numLen; i++) {
-            const tmpArr = p1.integer.splice(0, numLen + 1);
-            let tmpInteger = new ManyInteger(1, tmpArr.join(""));
-            let p = 0;
-            while (true) {
-                const pp = tmpInteger.addition(minusNumber);
-                if (0 <= pp.sign) {
-                    tmpInteger = pp;
-                    p++;
-                }
-                if (pp.sign <= 0) {
-                    resultArr.push(p);
-                    break;
-                }
-            }
-
-            while (tmpInteger.integer.length < numLen) {
-                tmpInteger.integer.unshift(0);
-            }
-            while (tmpInteger.integer.length > numLen) {
-                tmpInteger.integer.shift();
-            }
-
-            p1 = new ManyInteger(1, tmpInteger.integer.concat(p1.integer).join(""));
-        }
-
-        if (!resultArr.length) resultArr[0] = 0;
-
-        // const ed = Date.now();
-        // console.log(ed - st);
-        return new ManyInteger(1, resultArr.join(""));
-    }
-
-    division2(number) {
-        // const st = Date.now();
-        const numLen = number.integer.length;
         const p1 = this.integer.length === numLen ?
             new ManyInteger(1, "0" + this.integerStr)
             : new ManyInteger(1, this.integerStr);
@@ -239,6 +196,7 @@ let pg = [
     new ManyInteger(1, "1340000000134"),
     new ManyInteger(1, "1222977397446848"),
     new ManyInteger(1, "1988360333122163298702744246541041152"),
+    new ManyInteger(1, "3953576814333680203592857907682293280424654067010614221127148312157487104"),
 ]
 
 class ManyNumer {
