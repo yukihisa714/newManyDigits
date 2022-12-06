@@ -71,7 +71,7 @@ class ManyInteger {
         const arr2 = number.integer;
         const resultSign = this.sign * number.sign;
 
-        let resultsArr = [];
+        const resultsArr = [];
         for (let i = 0; i < arr2.length; i++) {
             resultsArr[i] = Array(i).fill(0);
             let moveUp = 0;
@@ -142,28 +142,29 @@ class ManyInteger {
         let tmpArr = p1.integer.splice(0, numLen);
         while (p1.integer.length) {
             tmpArr.push(p1.integer.splice(0, 1)[0]);
-            let tmpInteger = new ManyInteger(1, tmpArr.join(""));
-            let p = 0;
-            while (true) {
-                const pp = tmpInteger.addition(minusNumber);
-                if (0 <= pp.sign) {
-                    tmpInteger = pp;
-                    p++;
+            {
+                let tmpInteger = new ManyInteger(1, tmpArr.join(""));
+                let p = 0;
+                while (true) {
+                    const pp = tmpInteger.addition(minusNumber);
+                    if (0 <= pp.sign) {
+                        tmpInteger = pp;
+                        p++;
+                    }
+                    if (pp.sign <= 0) {
+                        resultArr.push(p);
+                        break;
+                    }
                 }
-                if (pp.sign <= 0) {
-                    resultArr.push(p);
-                    break;
-                }
+                tmpArr = tmpInteger.integer.slice();
             }
 
-            while (tmpInteger.integer.length < numLen) {
-                tmpInteger.integer.unshift(0);
+            while (tmpArr.length < numLen) {
+                tmpArr.unshift(0);
             }
-            while (tmpInteger.integer.length > numLen) {
-                tmpInteger.integer.shift();
+            while (tmpArr.length > numLen) {
+                tmpArr.shift();
             }
-
-            tmpArr = tmpInteger.integer.slice();
         }
 
         if (!resultArr.length) resultArr[0] = 0;

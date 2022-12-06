@@ -1,4 +1,6 @@
-let n = 10;
+const st = Date.now();
+
+const n = 10;
 
 const MAGIC_NUMS = [
     new ManyInteger(1, "13591409"),
@@ -6,13 +8,13 @@ const MAGIC_NUMS = [
     new ManyInteger(1, "640320"),
 ]
 
-let a1s = [];
+const a1s = [];
 for (let i = 0; i <= n * 2; i++) {
     a1s[i] = minus1Exponentiation(i);
 }
 console.log(a1s);
 
-let a2s = [];
+const a2s = [];
 for (let i = 0; i <= n * 2; i++) {
     let p = new ManyInteger(1, "1");
     for (let j = 6 * i; j > 3 * i; j--) {
@@ -22,20 +24,20 @@ for (let i = 0; i <= n * 2; i++) {
 }
 console.log(a2s);
 
-let a3s = [];
+const a3s = [];
 for (let i = 0; i <= n * 2; i++) {
     a3s[i] = MAGIC_NUMS[0].addition(MAGIC_NUMS[1].multiplication(new ManyInteger(1, String(i))));
 }
 console.log(a3s);
 
-let as = [];
+const as = [];
 for (let i = 0; i <= n * 2; i++) {
     as[i] = a1s[i].multiplication(a2s[i].multiplication(a3s[i]));
 }
 console.log(as);
 
 
-let factorials = [new ManyInteger(1, "1")];
+const factorials = [new ManyInteger(1, "1")];
 for (let i = 1; i <= n * 2; i++) {
     factorials[i] = factorials[i - 1].multiplication(new ManyInteger(1, String(i)));
 }
@@ -46,32 +48,31 @@ factorials.forEach((e) => {
     factorialsSum = factorialsSum.multiplication(e);
 });
 
-let b1s = factorials.map(e => e.plusExponentiation(3));
+const b1s = factorials.map(e => e.plusExponentiation(3));
 console.log(b1s);
-let b2s = [];
+const b2s = [];
 for (let i = 0; i <= n * 2; i++) {
     b2s[i] = MAGIC_NUMS[2].plusExponentiation(3 * i + 1);
 }
 console.log(b2s);
 
-let bs = [];
+const bs = [];
 for (let i = 0; i <= n * 2; i++) {
     bs[i] = b1s[i].multiplication(b2s[i]);
 }
-// console.log(bs);
+console.log(bs);
 
-const Bs = [
-    factorialsSum.plusExponentiation(3),
-    MAGIC_NUMS[2].plusExponentiation(6 * (n ** 2) + 5 * n + 1),
-]
-console.log(Bs[0]);
-console.log(Bs[1]);
+const B1 = factorialsSum.plusExponentiation(3);
+console.log(B1);
 
-const B = Bs[0].multiplication(Bs[1]);
+const B2 = MAGIC_NUMS[2].plusExponentiation(6 * (n ** 2) + 5 * n + 1);
+console.log(B2);
+
+const B = B1.multiplication(B2);
 console.log(B);
 
 
-let bunbos = [];
+const bunbos = [];
 for (let i = 0; i <= n * 2; i++) {
     let p = B.division(bs[i]);
     console.log(B, bs[i], p, i);
@@ -79,7 +80,7 @@ for (let i = 0; i <= n * 2; i++) {
 }
 console.log(bunbos);
 
-let bunbo = new ManyInteger(1, "0");
+let bunbo = new ManyInteger(0, "0");
 bunbos.forEach(e => {
     bunbo = bunbo.addition(e);
 })
@@ -92,3 +93,6 @@ bunbo = bunbo.division(new ManyInteger(1, "2"));
 bunbo = bunbo.division(B);
 
 console.log(bunbo);
+
+const ed = Date.now();
+console.log(`${ed - st} ms`);
