@@ -10,7 +10,7 @@ let a1s = [];
 for (let i = 0; i <= n * 2; i++) {
     a1s[i] = minus1Exponentiation(i);
 }
-// console.log(a1s);
+console.log(a1s);
 
 let a2s = [];
 for (let i = 0; i <= n * 2; i++) {
@@ -20,13 +20,13 @@ for (let i = 0; i <= n * 2; i++) {
     }
     a2s[i] = p;
 }
-// console.log(a2s);
+console.log(a2s);
 
 let a3s = [];
 for (let i = 0; i <= n * 2; i++) {
     a3s[i] = MAGIC_NUMS[0].addition(MAGIC_NUMS[1].multiplication(new ManyInteger(1, String(i))));
 }
-// console.log(a3s);
+console.log(a3s);
 
 let as = [];
 for (let i = 0; i <= n * 2; i++) {
@@ -39,7 +39,7 @@ let factorials = [new ManyInteger(1, "1")];
 for (let i = 1; i <= n * 2; i++) {
     factorials[i] = factorials[i - 1].multiplication(new ManyInteger(1, String(i)));
 }
-// console.log(factorials);
+console.log(factorials);
 
 let factorialsSum = new ManyInteger(1, "1");
 factorials.forEach((e) => {
@@ -47,29 +47,27 @@ factorials.forEach((e) => {
 });
 
 let b1s = factorials.map(e => e.plusExponentiation(3));
-// console.log(b1s);
+console.log(b1s);
 let b2s = [];
 for (let i = 0; i <= n * 2; i++) {
     b2s[i] = MAGIC_NUMS[2].plusExponentiation(3 * i + 1);
 }
-// console.log(b2s);
+console.log(b2s);
 
 let bs = [];
 for (let i = 0; i <= n * 2; i++) {
     bs[i] = b1s[i].multiplication(b2s[i]);
 }
+// console.log(bs);
 
 const Bs = [
     factorialsSum.plusExponentiation(3),
     MAGIC_NUMS[2].plusExponentiation(6 * (n ** 2) + 5 * n + 1),
 ]
+console.log(Bs[0]);
+console.log(Bs[1]);
 
 const B = Bs[0].multiplication(Bs[1]);
-
-
-// console.log(bs);
-// console.log(Bs[0]);
-// console.log(Bs[1]);
 console.log(B);
 
 
