@@ -346,7 +346,13 @@ class ManyNumer {
 
     }
 
-    division(number,) {
+    division(number, digit) {
+        const arr1 = this.integer.concat(this.decimal);
+        const arr2 = number.integer.concat(number.decimal);
+
+        let manyInteger1 = new ManyInteger(this.sign, arr1.join(""));
+        let manyInteger2 = new ManyInteger(number.sign, arr2.join(""));
+
 
     }
 }
