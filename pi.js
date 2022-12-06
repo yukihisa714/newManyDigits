@@ -1,4 +1,4 @@
-let n = 9;
+let n = 10;
 
 const MAGIC_NUMS = [
     new ManyInteger(1, "13591409"),
@@ -67,7 +67,7 @@ const Bs = [
 const B = Bs[0].multiplication(Bs[1]);
 
 
-console.log(bs);
+// console.log(bs);
 // console.log(Bs[0]);
 // console.log(Bs[1]);
 console.log(B);

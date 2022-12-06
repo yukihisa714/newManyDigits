@@ -54,7 +54,7 @@ class ManyInteger {
             if (Math.sign(-sympleResultArr[i]) === resultSign) {
                 sympleResultArr[i - 1] -= resultSign;
             }
-            if (Math.abs(sympleResultArr[i]) >= 10) {
+            else if (Math.abs(sympleResultArr[i]) >= 10) {
                 sympleResultArr[i - 1] += resultSign;
             }
             resultArr[i] = (10 + sympleResultArr[i] * resultSign) % 10;
