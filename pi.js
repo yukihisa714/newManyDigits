@@ -84,7 +84,7 @@ let bunbo = new ManyInteger(0, "0");
 bunbos.forEach(e => {
     bunbo = bunbo.addition(e);
 })
-// console.log(bunbo);
+console.log(bunbo);
 
 bunbo = bunbo.multiplication(new ManyInteger(1, "3"));
 // console.log(bunbo);

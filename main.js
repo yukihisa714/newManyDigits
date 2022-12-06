@@ -346,7 +346,7 @@ class ManyNumer {
 
     }
 
-    division(number) {
+    division(number,) {
 
     }
 }
