@@ -347,13 +347,26 @@ class ManyNumer {
     }
 
     division(number, digit) {
-        const arr1 = this.integer.concat(this.decimal);
+        let decimalLen1 = this.decimal.length;
+        let decimalLen2 = number.decimal.length;
+
+        let tmp1 = decimalLen1 - decimalLen2;
+        let tmp2 = digit - tmp1;
+
+        if (tmp2 < 0) tmp2 = 0;
+
+        let newDigits = Array(tmp2).fill(0);
+        const arr1 = this.integer.concat(this.decimal).concat(newDigits);
         const arr2 = number.integer.concat(number.decimal);
+        console.log(arr1, arr2);
 
         let manyInteger1 = new ManyInteger(this.sign, arr1.join(""));
         let manyInteger2 = new ManyInteger(number.sign, arr2.join(""));
 
+        let result1 = manyInteger1.division(manyInteger2);
+        console.log(result1);
 
+        return result1;
     }
 }
 

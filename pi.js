@@ -1,6 +1,6 @@
 const st = Date.now();
 
-const n = 10;
+const n = 5;
 
 const MAGIC_NUMS = [
     new ManyInteger(1, "13591409"),
@@ -87,12 +87,20 @@ bunbos.forEach(e => {
 console.log(bunbo);
 
 bunbo = bunbo.multiplication(new ManyInteger(1, "3"));
-// console.log(bunbo);
+console.log(bunbo);
 bunbo = bunbo.division(new ManyInteger(1, "2"));
 // console.log(bunbo);
-bunbo = bunbo.division(B);
+// bunbo = bunbo.division(B);
 
-console.log(bunbo);
+let newBunbo = new ManyNumer(1, bunbo.integerStr, "0");
+let newB = new ManyNumer(1, B.integerStr, "0");
+
+newBunbo = newBunbo.division(newB, 5000);
+
+const resultElm = document.getElementById("result");
+resultElm.innerText = newBunbo.integerStr;
+
+console.log(newBunbo);
 
 const ed = Date.now();
 console.log(`${ed - st} ms`);
