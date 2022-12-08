@@ -173,6 +173,15 @@ class ManyInteger {
         // console.log(ed - st);
         return new ManyInteger(resultSign, resultArr.join(""));
     }
+
+
+    root(digit) {
+        let arr1 = this.integer;
+        let len1 = Math.ceil(arr1.length / 2);
+        let str1 = "1" + "0".repeat(len1 - 1);
+        let num1 = new ManyInteger(1, str1);
+
+    }
 }
 
 function minus1Exponentiation(n) {
