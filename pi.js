@@ -68,13 +68,17 @@ console.log(B1);
 const B2 = MAGIC_NUMS[2].plusExponentiation(6 * (n ** 2) + 5 * n + 1);
 console.log(B2);
 
+const tmpTime1 = Date.now();
 const B = B1.multiplication(B2);
-console.log(B);
+console.log(B, Date.now() - tmpTime1);
 
 
 const bunbos = [];
 for (let i = 0; i <= n * 2; i++) {
-    let p = B.division(bs[i]);
+    const p = B.division(bs[i]);
+    // const p1 = (factorialsSum.division(factorials[i])).plusExponentiation(3);
+    // const p2 = MAGIC_NUMS[2].plusExponentiation(6 * (n ** 2) + 5 * n - 3 * i);
+    // const p = p1.multiplication(p2);
     console.log(B, bs[i], p, i);
     bunbos[i] = as[i].multiplication(p);
 }
